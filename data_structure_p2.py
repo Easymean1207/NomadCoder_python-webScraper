@@ -11,32 +11,37 @@ websites = (
     "https://twitter.com",
     "https://httpstat.us/501",
     "https://httpstat.us/404",
-    "https://httpstat.us/307",
+    "https://httpstat.us/306",
     "https://httpstat.us/101",
 )
+
 websites_list = list(websites)
 
 results = {}
 
-for index, item in enumerate(websites_list):
-    if not item.startswith("https://"):
-        websites_list[index] = f"https://{item}"
-    response = requests.get(websites_list[index])
+""" enumerate: 인덱스와 요소로 이루어진 tuple을 반환 -> 값을 변형하고 싶으면 list의 형태로 바꿔야 함 ★★★★★"""
+# for index, item in enumerate(websites_list):
+
+for website in websites:
+    if not website.startswith("https://"):
+        website = f"https://{website}"
+    response = requests.get(website)
 
     if response.status_code >= 500:
-        results[websites_list[index]] = "Server error"
+        results[website] = "5xx / Server error"
     elif response.status_code >= 400:
-        results[websites_list[index]] = "Client error"
+        results[website] = "4xx / Client error"
     elif response.status_code >= 300:
-        results[websites_list[index]] = "Redirection message"
+        results[website] = "3xx / Redirection message"
     elif response.status_code >= 200:
-        results[websites_list[index]] = "Successful response"
+        results[website] = "2xx / Successful response"
     elif response.status_code >= 100:
-        results[websites_list[index]] = "Information response"
+        results[website] = "1xx / Information response"
     else:
-        results[websites_list[index]] = "Not supported response"
+        results[website] = "Not supported response"
 
-
-websites = tuple(websites_list)
+# websites = tuple(websites_list)
 # print(websites)
-print(results)
+
+for website_key in results:
+    print(website_key, "->", results[website_key])
