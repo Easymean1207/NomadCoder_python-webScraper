@@ -21,4 +21,4 @@ if response.status_code != 200:
 else:
     # print(response.text)  # show html code of website included in response
     soup = BeautifulSoup(response.text, "html.parser")
-    jobs = soup.find_all("section", class_="jobs"
+    jobs = soup.find_all("section", class_="jobs")
