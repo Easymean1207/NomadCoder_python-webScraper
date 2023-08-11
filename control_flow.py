@@ -1,22 +1,27 @@
-import random
-import time
+from random import randint
+from time import sleep
 
-print("Welcome to Python Casino!")
-pc_choice = random.randint(1, 50)
-is_playing = True
 
-while is_playing:
-    # only one argument in input()
-    user_choice = int(input("Choose number (1~50): "))
+def pythonCasino():
+    print("===== Play match game with your PC! =====")
+    pc_choice = randint(1, 50)
+    is_playing = True
 
-    if user_choice == pc_choice:
-        print("You won!")
-        is_playing = False
+    while is_playing:
+        # only one argument in input()
+        user_choice = int(input("Choose number (1~50):"))
 
-    elif user_choice > pc_choice:
-        print("Lower! your choice is too high!")
+        if user_choice == pc_choice:
+            print(f"You won! Computer chose {pc_choice}")
+            is_playing = False
 
-    elif user_choice < pc_choice:
-        print("Higher! your choice is too low!")
+        elif user_choice > pc_choice:
+            print("Down! your choice is too high!")
 
-    time.sleep(0.5)
+        elif user_choice < pc_choice:
+            print("Up! your choice is too low!")
+
+        sleep(0.5)
+
+
+pythonCasino()
