@@ -15,12 +15,12 @@ for index, value in enumerate(days_of_week):
     if "Sun" in value:
         print(f"index:{index}, value:{value}")
 
-# 특정 substring이 몇 개나 있는 지 확인
-count_days_with_day = 0
+# 특정 substring이 몇 개나 있는 지 확인 / count와는 다른 개념
+count_days = 0
 for day in days_of_week:
     if "day" in day:
-        count_days_with_day += 1
-print(count_days_with_day)
+        count_days += 1
+print(f"{count_days}days in one week!")
 
 # 특정 substring 혹은 character로 끝나는 지 확인
 for index, value in enumerate(days_of_week):
@@ -31,12 +31,12 @@ for index, value in enumerate(days_of_week):
 days_of_week.reverse()
 print(days_of_week)
 
-""" list append """
-days_of_week.append("월요일 좋아~")
-print(days_of_week)
-
 """ list remove """
 days_of_week.remove("Monday")
+print(days_of_week)
+
+""" list append """
+days_of_week.append("월요일 좋아~")
 print(days_of_week)
 
 """ list replace """
@@ -69,21 +69,22 @@ days_of_week_tuple = (
     "Sunday",
 )
 
+""" reversed()는 객체의 값으로 반환하며 list, tuple, string, dictionary 등에도 활용 가능하다. """
 days_of_week_2 = tuple(reversed(days_of_week_tuple))
-print(days_of_week_tuple)
-
+print(f"origin tuple:{days_of_week_tuple}")
+print(f"reversed tuple: {days_of_week_2}")
 
 # dictionary -> key, value pair!!!
 
 
-def find_key_by_value(dictionary, search_value):
+def find_key_by_value(dictionary, finding_value):
     for key, value in dictionary.items():
-        # list,tuple case
+        # value가 list나 tuple과 같이 복합 데이터 유형인 경우
         if isinstance(value, (list, tuple)):
-            if search_value in value:
+            if finding_value in value:
                 return key
-        # else data case
-        elif value == search_value:
+        # value가 단일값 유형인 경우
+        elif value == finding_value:
             return key
     return None
 
@@ -98,10 +99,17 @@ player = {
     "family": ("mother", "father", "wife", "children"),
 }
 
-player["fav_food"][0] = "noodle"
-print(find_key_by_value(player, "chicken"))
+""" print value with key (using get()) """
+print(f"player name: {player.get('name')}")
+print(f"player favorite foods: {player.get('fav_food')}")
+print(f"player family: {player.get('family')}")
+
+""" print key with value (using user_define_fucntion) """
+print(f"before replace: {find_key_by_value(player, 'chicken')}")
+player["fav_food"][0] = "noodle"  # value replace
+print(f"after replace: {find_key_by_value(player, 'chicken')}")
 print(find_key_by_value(player, 50))
-print(find_key_by_value(player, "mother"))
+print(find_key_by_value(player, "father"))
 
 """ dictionary add """
 player["xp"] = 2000
