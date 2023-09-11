@@ -20,11 +20,7 @@ def extract_wwwr_jobs(keyword):
         for job_section in jobs:
             job_posts = job_section.find_all("li")
             job_posts.pop(-1)  # remove view-all(last index)
-            # job_posts = [
-            #     post
-            #     for post in job_posts
-            #     if not post.get("class") or "view-all" not in post["class"]
-            # ]  # remove elements that contains "class=\"view_all\""
+
             for post in job_posts:
                 anchors = post.find_all("a")
                 anchor = anchors[1]  # get second anchor
