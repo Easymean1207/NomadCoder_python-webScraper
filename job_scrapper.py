@@ -1,7 +1,8 @@
 from requests import get
 from bs4 import BeautifulSoup
+from extractors.wwr import extract_wwwr_jobs
 
-base_url = "https://weworkremotely.com/remote-jobs/search?term="
+base_url = "https://kr.indeed.com/jobs?q="
 search_term = "python"
 
 response = get(f"{base_url}{search_term}")
@@ -10,59 +11,7 @@ if response.status_code != 200:
     print("Can't request website")
     exit(1)
 else:
-    results = []
     # print(response.text)  # show html code of website included in response
-    soup = BeautifulSoup(
-        response.text, "html.parser"
-    )  # BeautifulSoup transform everything to python datastructure
-    jobs = soup.find_all("section", class_="jobs")  # use keyword Argument
-
-    for job_section in jobs:
-        job_posts = job_section.find_all("li")
-        job_posts.pop(-1)  # remove view-all(last index)
-        # job_posts = [
-        #     post
-        #     for post in job_posts
-        #     if not post.get("class") or "view-all" not in post["class"]
-        # ]  # remove elements that contains "class=\"view_all\""
-        for post in job_posts:
-            anchors = post.find_all("a")
-            anchor = anchors[1]  # get second anchor
-
-            link = anchor["href"]
-            company, kind, region = anchor.find_all(
-                "span", class_="company"
-            )  # another way to assign value if we know length of list
-            title = anchor.find("span", class_="title")
-
-            job_data = {
-                "link": f"https//weworkremotely.com{link}",
-                "company": company.string,
-                "region": region.string,
-                "position": title.string,
-            }
-            results.append(job_data)
-
-    for result in results:
-        print(result)
-        print("-----------------")
-""" using try-catch(except) """
-# try:
-#     response = get(f"{base_url}{search_term}")
-#     response.raise_for_status()  # Check if there was an HTTP error
-#     print(response.text)  # Show HTML code of website included in the response
-#     soup = BeautifulSoup(response.text, "html.parser")
-#     jobs = soup.find_all("section", class_="jobs")  # use keyword Arguments
-#     for job_section in jobs:
-#         job_posts = job_section.find_all("li")
-#         job_posts.pop(-1)  # remove view-all(last index)
-#         # job_posts = [
-#         #     post
-#         #     for post in job_posts
-#         #     if not post.get("class") or "view-all" not in post["class"]
-#         # ]  # "class=\"view_all\""을 가지는 요소 제외
-#         for post in job_posts:
-#             print(post)
-#             print("/////")
-# except Exception as e:
-#     print("Can't request website:", e)
+    soup = BeautifulSoup(response.text, "html.parser")
+    job_list = soup.find("ul", class_="jobsearch-ResultsList")
+    jobs = job_list.find_all
