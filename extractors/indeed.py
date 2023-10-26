@@ -50,7 +50,7 @@ def extractIndeedJobs(keyword):
         jobs = job_list.find_all("li", recursive=False)  # only search direct li
 
         for job in jobs:
-            zone = job.find("div", class_="mozaic-zone")
+            zone = job.find("div", class_="mosaic-zone")
             if zone == None:  # None is python's Null type
                 anchor = job.select_one(
                     "h2 a"
@@ -69,6 +69,12 @@ def extractIndeedJobs(keyword):
                         "location": location.string,
                         "position": title,  # position is aria-label
                     }
+
+                    # check that replace() is available
+                    for each in job_data:
+                        if job_data[each] != None:
+                            job_data[each] = job_data[each].replace(",", " ")
+
                     results.append(job_data)
 
     return results
